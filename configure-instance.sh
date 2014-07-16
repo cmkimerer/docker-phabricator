@@ -32,6 +32,13 @@ popd
 
 pushd /srv/phabricator/phabricator
 
+if [ -e /config/authorized_keys ]; then
+    echo "Copying authorized_keys file into place"
+    mkdir -p /root/.ssh/
+    cp /config/authorized_keys /root/.ssh/
+    chmod 600 /root/.ssh/authorized_keys
+fi
+
 if [ -e /config/script.post ]; then
     echo "Applying post-configuration script..."
     /config/script.post
@@ -43,7 +50,7 @@ if [ -e /config/cert.pem ]; then
         cp /etc/nginx/nginx-ssl.conf.org /etc/nginx/nginx.conf
     fi
 else
-  cp /etc/nginx/nginx.conf.org /etc/nginx.conf
+    cp /etc/nginx/nginx.conf.org /etc/nginx.conf
 fi
 
 popd

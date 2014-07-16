@@ -53,10 +53,11 @@ RUN echo "git ALL=(phab-daemon) SETENV: NOPASSWD: /usr/bin/git-upload-pack, /usr
 
 
 # Add Supervisord config files
-ADD phab-sshd.sv.conf /etc/supervisor/conf.d/
 ADD php5-fpm.sv.conf /etc/supervisor/conf.d/
 ADD nginx.sv.conf /etc/supervisor/conf.d/
+ADD sshd.sv.conf /etc/supervisor/conf.d/
 ADD phab-phd.sv.conf /etc/supervisor/conf.d/
+ADD phab-sshd.sv.conf /etc/supervisor/conf.d/
 
 # Move the default SSH to port 24
 RUN echo "" >> /etc/ssh/sshd_config

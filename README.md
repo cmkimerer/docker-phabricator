@@ -33,11 +33,12 @@ file should be marked as executable.  Place the following content in that file:
 
 To run this image:
 
-    /usr/bin/docker run -p 22:22 -p 80:80 -p 443:443 -p 843:843 -p 22280:22280 -v /path/to/config:/config -v /path/to/repo/storage:/var/repo --name=phabricator --link mariadb:linked_mariadb offbyone/phabricator
+    /usr/bin/docker run -p 22:22 -p 24 -p 80:80 -p 443:443 -p 843:843 -p 22280:22280 -v /path/to/config:/config -v /path/to/repo/storage:/var/repo --name=phabricator --link mariadb:linked_mariadb offbyone/phabricator
 
 What do these parameters do?
 
     -p 22:22 = forward the host's SSH port to Phabricator for repository access
+    -p 24 = publishes port 24 from your Phabricator's instance to the host running docker (can be retrieved to SSH in)
     -p 80:80 = forward the host's HTTP port to Phabricator for web access
     -p 443:443 = forward the host's HTTPS port to Phabricator for secure web access
     -p 843:843 = forward the host's 843 port for the notification server
@@ -65,14 +66,17 @@ If you are running MariaDB in a Docker container (e.g. using the `hachque/mariad
     
 Include the `--link` option as shown above to link the Phabricator container to the MariaDB container.
 
-SSH / Login
+Enabling SSH
 --------------
 
+To enable SSH, place an authorized_keys file next to `script.pre`.  You will be able to log in
+using key authentication.
+_
 **Username:** root
-
-**Password:** linux
-
 **Port:** 24
 
 (Note that repository hosting for Phabricator is served on port 22)
+
+To retrieve the port that SSH is running on your server type `docker port phabricator 24`
+Then log in using `ssh -p PORT_NUM root@127.0.0.1` where PORT_NUM is the output port from the docker port command
 
