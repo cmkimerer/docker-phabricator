@@ -1,11 +1,13 @@
 docker-phabricator
 ==================
 
-This image was put together based off of the previous work done by people at the following locations
+Runs Phabricator and all associated daemons in one image (this image does not contain a database).  This image currently auto-updates Phabricator once a week and restarts all processes.
 
-* https://github.com/hach-que-docker/phabricator
+This image was put together based off of the previous work done by https://github.com/hach-que-docker/phabricator and with insight from the previous work done by people at the following locations
+
 * https://github.com/yesnault/docker-phabricator/
 * http://blog.spang.cc/posts/running_phd_under_supervisor/
+* http://blog.trifork.com/2014/03/11/using-supervisor-with-docker-to-manage-processes-supporting-image-inheritance/
 
 
 Usage
@@ -69,7 +71,7 @@ Include the `--link` option as shown above to link the Phabricator container to 
 Enabling SSH
 --------------
 
-To enable SSH, place an authorized_keys file next to `script.pre`.  You will be able to log in
+To enable SSH, place an authorized_keys file next to `script.pre` (in the `config` directory).  You will be able to log in
 using key authentication.
 _
 **Username:** root

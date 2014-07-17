@@ -1,4 +1,4 @@
-FROM offbyone/supervisord:1.0.0
+FROM offbyone/supervisord:1.1.0
 
 MAINTAINER Craig Kimerer <craig@offxone.com>
 
@@ -50,13 +50,16 @@ ADD php.ini /etc/php5/fpm/
 # Add necessary git entries entries
 RUN echo "git ALL=(phab-daemon) SETENV: NOPASSWD: /usr/bin/git-upload-pack, /usr/bin/git-receive-pack" > /etc/sudoers.d/git
 
-
 # Add Supervisord config files
-ADD php5-fpm.sv.conf /etc/supervisor/conf.d/
+ADD cron.sv.conf /etc/supervisor/conf.d/
 ADD nginx.sv.conf /etc/supervisor/conf.d/
-ADD sshd.sv.conf /etc/supervisor/conf.d/
 ADD phab-phd.sv.conf /etc/supervisor/conf.d/
 ADD phab-sshd.sv.conf /etc/supervisor/conf.d/
+ADD php5-fpm.sv.conf /etc/supervisor/conf.d/
+ADD sshd.sv.conf /etc/supervisor/conf.d/
+
+# Add the cron for upgrading phabricator
+ADD upgrade-phabricator.cron /etc/cron.d/phabricator
 
 # Move the default SSH to port 24
 RUN echo "" >> /etc/ssh/sshd_config
@@ -75,4 +78,4 @@ ADD sshd_config.phabricator /etc/phabricator-ssh/
 ADD phabricator-ssh-hook.sh /etc/phabricator-ssh/
 RUN chown root:root /etc/phabricator-ssh/*
 
-CMD ./startup.sh && supervisord -c /etc/supervisor.conf
+CMD ./startup.sh && supervisord
