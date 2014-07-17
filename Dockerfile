@@ -1,9 +1,8 @@
-FROM quintenk/supervisor
+FROM offbyone/supervisord:1.0.0
 
 MAINTAINER Craig Kimerer <craig@offxone.com>
 
 # Install requirements
-RUN apt-get update
 RUN apt-get install -y ssh wget vim less zip cron lsof git sendmail
 
 # Add users
