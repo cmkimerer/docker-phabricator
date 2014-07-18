@@ -3,6 +3,8 @@ docker-phabricator
 
 Runs Phabricator and all associated daemons in one image (this image does not contain a database).  This image currently auto-updates Phabricator once a week and restarts all processes.
 
+This image can be pulled by running `docker pull offbyone/phabricator`
+
 This image was put together based off of the previous work done by https://github.com/hach-que-docker/phabricator and with insight from the previous work done by people at the following locations
 
 * https://github.com/yesnault/docker-phabricator/
@@ -82,3 +84,7 @@ _
 To retrieve the port that SSH is running on your server type `docker port phabricator 24`
 Then log in using `ssh -p PORT_NUM root@127.0.0.1` where PORT_NUM is the output port from the docker port command
 
+Uploading Files
+---------------
+
+NOTE: This image assumes you are either storing your files using MySQL or using S3, there is no guarantee that your files will stick around if you use either other method.  If you'd like to store files on the filesystem, you'll want to add an additional volume.
