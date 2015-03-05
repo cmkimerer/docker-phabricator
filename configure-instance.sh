@@ -50,7 +50,7 @@ if [ -e /config/cert.pem ]; then
         cp /etc/nginx/nginx-ssl.conf.org /etc/nginx/nginx.conf
     fi
 else
-    cp /etc/nginx/nginx.conf.org /etc/nginx.conf
+    cp /etc/nginx/nginx.conf.org /etc/nginx/nginx.conf
 fi
 
 popd
