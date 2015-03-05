@@ -24,8 +24,8 @@ supervisorctl restart nginx
 
 # Check to make sure the notification services are running
 echo "Restarting aphlict"
-/srv/phabricator/phabricator/bin/aphlict restart
+sudo -u phab-daemon /srv/phabricator/phabricator/bin/aphlict restart
 
 # Restarts the processes belonging to the group "phd"
 echo "Restarting phd daemons"
-supervisorctl restart phd:
+/srv/phabricator/phabricator/bin/phd restart

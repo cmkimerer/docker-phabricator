@@ -1,4 +1,11 @@
 =================
+Version 1.1.1
+=================
+2015/03/04
+  - Image now based off of offbyone/supervisord:1.1.1 (added ability supervisorctl to control processes)
+  - Upgrades of Phabricator are now cron'd to run once a week and restarts processes after the upgrade
+
+=================
 Version 1.1.0
 =================
 2014/7/17

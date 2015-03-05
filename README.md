@@ -37,7 +37,7 @@ file should be marked as executable.  Place the following content in that file:
 
 To run this image:
 
-    /usr/bin/docker run -p 22:22 -p 24 -p 80:80 -p 443:443 -p 843:843 -p 22280:22280 -v /path/to/config:/config -v /path/to/repo/storage:/var/repo --name=phabricator --link mariadb:linked_mariadb offbyone/phabricator
+    /usr/bin/docker run -p 22:22 -p 24 -p 80:80 -p 443:443 -p 22280:22280 -v /path/to/config:/config -v /path/to/repo/storage:/var/repo --name=phabricator --link mariadb:linked_mariadb offbyone/phabricator
 
 What do these parameters do?
 
@@ -45,7 +45,6 @@ What do these parameters do?
     -p 24 = publishes port 24 from your Phabricator's instance to the host running docker (can be retrieved to SSH in)
     -p 80:80 = forward the host's HTTP port to Phabricator for web access
     -p 443:443 = forward the host's HTTPS port to Phabricator for secure web access
-    -p 843:843 = forward the host's 843 port for the notification server
     -p 22280:22280 = forward the host's 22280 port for the notification server
     -v path/to/config:/config = map the configuration from the host to the container
     -v path/to/repo/storage:/var/repo = map the repository storage from the host to the container

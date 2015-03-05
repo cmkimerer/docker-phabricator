@@ -3,7 +3,9 @@ FROM offbyone/supervisord:1.1.0
 MAINTAINER Craig Kimerer <craig@offxone.com>
 
 # Install requirements
-RUN apt-get install -y ssh wget vim less zip cron lsof git sendmail
+RUN apt-get update && apt-get upgrade
+RUN apt-get install -y ssh wget vim less zip cron lsof git sendmail nodejs-legacy npm python-pygments
+RUN npm install ws
 
 # Add users
 RUN echo "git:x:2000:2000:user for phabricator ssh:/srv/phabricator:/bin/bash" >> /etc/passwd
@@ -28,8 +30,7 @@ RUN apt-get -y install nginx php5 php5-fpm php5-mcrypt php5-mysql php5-gd php5-d
 EXPOSE 80
 EXPOSE 443
 
-# Expose Aphlict (notification server) on 843 and 22280
-EXPOSE 843
+# Expose Aphlict (notification server) on 22280
 EXPOSE 22280
 
 # Expose SSH port 24 (Git SSH will be on 22, regular SSH on 24)
@@ -53,7 +54,6 @@ RUN echo "git ALL=(phab-daemon) SETENV: NOPASSWD: /usr/bin/git-upload-pack, /usr
 # Add Supervisord config files
 ADD cron.sv.conf /etc/supervisor/conf.d/
 ADD nginx.sv.conf /etc/supervisor/conf.d/
-ADD phab-phd.sv.conf /etc/supervisor/conf.d/
 ADD phab-sshd.sv.conf /etc/supervisor/conf.d/
 ADD php5-fpm.sv.conf /etc/supervisor/conf.d/
 ADD sshd.sv.conf /etc/supervisor/conf.d/
@@ -67,8 +67,6 @@ RUN echo "Port 24" >> /etc/ssh/sshd_config
 
 RUN mkdir -p /var/repo/
 RUN chown phab-daemon:2000 /var/repo/
-RUN mkdir -p /var/tmp/phd/pid
-RUN chmod 0777 /var/tmp/phd/pid
 
 # Configure Phabricator SSH service
 RUN mkdir /etc/phabricator-ssh
