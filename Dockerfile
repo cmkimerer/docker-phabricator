@@ -3,7 +3,7 @@ FROM offbyone/supervisord:1.1.0
 MAINTAINER Craig Kimerer <craig@offxone.com>
 
 # Install requirements
-RUN apt-get update && apt-get upgrade
+RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y ssh wget vim less zip cron lsof git sendmail nodejs-legacy npm python-pygments
 RUN npm install ws
 
