@@ -62,8 +62,7 @@ ADD sshd.sv.conf /etc/supervisor/conf.d/
 ADD upgrade-phabricator.cron /etc/cron.d/phabricator
 
 # Move the default SSH to port 24
-RUN echo "" >> /etc/ssh/sshd_config
-RUN echo "Port 24" >> /etc/ssh/sshd_config
+RUN sed -i 's/Port 22/Port 24/g' /etc/ssh/sshd_config
 
 RUN mkdir -p /var/repo/
 RUN chown phab-daemon:2000 /var/repo/
