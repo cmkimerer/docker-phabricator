@@ -23,8 +23,12 @@ RUN git clone git://github.com/facebook/phabricator.git
 
 
 # Setup wait-for-it to wait for the db socket to be ready before plowing through
-WORKDIR /srv
-RUN git clone https://github.com/vishnubob/wait-for-it.git
+USER root
+RUN mkdir /srv/wait-for-it
+RUN chown git:wwwgrp-phabricator /srv/wait-for-it
+USER git
+WORKDIR /srv/wait-for-it
+RUN git clone https://github.com/vishnubob/wait-for-it.git .
 
 # Install requirements
 USER root
