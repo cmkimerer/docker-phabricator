@@ -20,10 +20,15 @@ WORKDIR /srv/phabricator
 RUN git clone git://github.com/facebook/libphutil.git
 RUN git clone git://github.com/facebook/arcanist.git
 RUN git clone git://github.com/facebook/phabricator.git
-USER root
-WORKDIR /
+
+
+# Setup wait-for-it to wait for the db socket to be ready before plowing through
+WORKDIR /srv
+RUN git clone https://github.com/vishnubob/wait-for-it.git
 
 # Install requirements
+USER root
+WORKDIR /
 RUN apt-get -y install nginx php5 php5-fpm php5-mcrypt php5-mysql php5-gd php5-dev php5-curl php-apc php5-cli php5-json php5-ldap python-Pygments nodejs sudo subversion
 
 # Expose Nginx on port 80 and 443
