@@ -24,7 +24,7 @@ USER root
 WORKDIR /
 
 # Install requirements
-RUN apt-get -y install nginx php5 php5-fpm php5-mcrypt php5-mysql php5-gd php5-dev php5-curl php-apc php5-cli php5-json php5-ldap python-Pygments nodejs sudo
+RUN apt-get -y install nginx php5 php5-fpm php5-mcrypt php5-mysql php5-gd php5-dev php5-curl php-apc php5-cli php5-json php5-ldap python-Pygments nodejs sudo subversion
 
 # Expose Nginx on port 80 and 443
 EXPOSE 80
