@@ -3,8 +3,9 @@ FROM offbyone/supervisord:1.1.0
 MAINTAINER Craig Kimerer <craig@offxone.com>
 
 # Install requirements
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y ssh wget vim less zip cron lsof git sendmail nodejs-legacy npm python-pygments
+
+RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:git-core/ppa && apt-get update && apt-get upgrade -y
+RUN apt-get install -y ssh wget vim less zip cron lsof git sendmail nodejs-legacy npm python-pygments subversion
 RUN npm install ws
 
 # Add users
@@ -33,7 +34,7 @@ RUN git clone https://github.com/vishnubob/wait-for-it.git .
 # Install requirements
 USER root
 WORKDIR /
-RUN apt-get -y install nginx php5 php5-fpm php5-mcrypt php5-mysql php5-gd php5-dev php5-curl php-apc php5-cli php5-json php5-ldap python-Pygments nodejs sudo subversion
+RUN apt-get -y install nginx php5 php5-fpm php5-mcrypt php5-mysql php5-gd php5-dev php5-curl php-apc php5-cli php5-json php5-ldap python-Pygments nodejs sudo 
 
 # Expose Nginx on port 80 and 443
 EXPOSE 80
