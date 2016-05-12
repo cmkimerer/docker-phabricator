@@ -62,9 +62,9 @@ else
 fi
 
 # Start everything here so we don't get error messages during the upgrade
-sudo -u phab-daemon bin/phd start
+sudo -u phab-daemon bin/phd start || true
 sudo -u phab-daemon mkdir -p /var/tmp/aphlict/pid
-sudo -u phab-daemon bin/aphlict start
+sudo -u phab-daemon bin/aphlict start || true
 
 popd
 
