@@ -27,6 +27,14 @@ fi
 
 ./bin/config set phd.user phab-daemon
 ./bin/config set diffusion.ssh-user git
+./bin/config set storage.local-disk.path "/var/localstorage"
+
+# Set the name of the host running MySQL:
+./bin/config set mysql.host "db"
+./bin/config set mysql.port "3306"
+
+# Wait for the db to start listening for up to 5 minutes before proceeding
+/srv/wait-for-it/wait-for-it.sh db:3306 -t 600
 
 popd
 
@@ -53,4 +61,11 @@ else
     cp /etc/nginx/nginx.conf.org /etc/nginx/nginx.conf
 fi
 
+# Start everything here so we don't get error messages during the upgrade
+sudo -u phab-daemon bin/phd start || true
+sudo -u phab-daemon mkdir -p /var/tmp/aphlict/pid
+sudo -u phab-daemon bin/aphlict start || true
+
 popd
+
+

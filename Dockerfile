@@ -3,8 +3,9 @@ FROM offbyone/supervisord:1.1.0
 MAINTAINER Craig Kimerer <craig@offxone.com>
 
 # Install requirements
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y ssh wget vim less zip cron lsof git sendmail nodejs-legacy npm python-pygments
+
+RUN apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:git-core/ppa && apt-get update && apt-get upgrade -y
+RUN apt-get install -y ssh wget vim less zip cron lsof git sendmail nodejs-legacy npm python-pygments subversion
 RUN npm install ws
 
 # Add users
@@ -20,11 +21,20 @@ WORKDIR /srv/phabricator
 RUN git clone git://github.com/facebook/libphutil.git
 RUN git clone git://github.com/facebook/arcanist.git
 RUN git clone git://github.com/facebook/phabricator.git
+
+
+# Setup wait-for-it to wait for the db socket to be ready before plowing through
 USER root
-WORKDIR /
+RUN mkdir /srv/wait-for-it
+RUN chown git:wwwgrp-phabricator /srv/wait-for-it
+USER git
+WORKDIR /srv/wait-for-it
+RUN git clone https://github.com/vishnubob/wait-for-it.git .
 
 # Install requirements
-RUN apt-get -y install nginx php5 php5-fpm php5-mcrypt php5-mysql php5-gd php5-dev php5-curl php-apc php5-cli php5-json php5-ldap python-Pygments nodejs sudo
+USER root
+WORKDIR /
+RUN apt-get -y install nginx php5 php5-fpm php5-mcrypt php5-mysql php5-gd php5-dev php5-curl php-apc php5-cli php5-json php5-ldap python-Pygments nodejs sudo 
 
 # Expose Nginx on port 80 and 443
 EXPOSE 80
@@ -62,8 +72,7 @@ ADD sshd.sv.conf /etc/supervisor/conf.d/
 ADD upgrade-phabricator.cron /etc/cron.d/phabricator
 
 # Move the default SSH to port 24
-RUN echo "" >> /etc/ssh/sshd_config
-RUN echo "Port 24" >> /etc/ssh/sshd_config
+RUN sed -i 's/Port 22/Port 24/g' /etc/ssh/sshd_config
 
 RUN mkdir -p /var/repo/
 RUN chown phab-daemon:2000 /var/repo/
